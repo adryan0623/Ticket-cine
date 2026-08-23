@@ -6,9 +6,8 @@
     <title>Ticket de Cine Especial - Sophie & Adryan</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
-    <!-- Confetti & html2canvas -->
+    <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -371,17 +370,6 @@
             text-decoration: none;
         }
 
-        .btn-download {
-            background: linear-gradient(135deg, #7c4dff 0%, #ff4081 100%);
-            color: #ffffff;
-            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.35);
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 64, 129, 0.5);
-        }
-
         .btn-whatsapp {
             background: #25D366;
             color: #ffffff;
@@ -392,33 +380,13 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
         }
-
-        /* NOTIFICATION TOAST */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #323232;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
     </style>
 </head>
 <body>
 
     <div class="main-wrapper">
 
-        <!-- TICKET AREA TO DOWNLOAD -->
+        <!-- TICKET AREA -->
         <div class="ticket-container" id="ticket-card">
             <!-- Header -->
             <div class="ticket-header">
@@ -474,31 +442,31 @@
                 <div class="movie-list" id="list-comedia">
                     <label class="movie-card selected" onclick="selectMovie('Quiero robarme a la novia', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1', this)">
                         <input type="radio" name="movie_choice" checked>
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1" alt="Quiero robarme a la novia" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1" alt="Quiero robarme a la novia">
                         <span class="movie-title">Quiero robarme a la novia</span>
                     </label>
                     
                     <label class="movie-card" onclick="selectMovie('Locura de amor en las Vegas', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/8hwo92lbdwff2o6l19t42/MV5BMjdkMDUwOGUtMzRhMS00ZjE1LThlMWQtZTI3MGQ1ZGRmOTQ0XkEyXkFqcGc-._V1_.jpg?rlkey=tiyb4tnqx0o020qd7cdqpyyr1&st=5j6n7skz&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/8hwo92lbdwff2o6l19t42/MV5BMjdkMDUwOGUtMzRhMS00ZjE1LThlMWQtZTI3MGQ1ZGRmOTQ0XkEyXkFqcGc-._V1_.jpg?rlkey=tiyb4tnqx0o020qd7cdqpyyr1&st=5j6n7skz&raw=1" alt="Locura de amor en las Vegas" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/8hwo92lbdwff2o6l19t42/MV5BMjdkMDUwOGUtMzRhMS00ZjE1LThlMWQtZTI3MGQ1ZGRmOTQ0XkEyXkFqcGc-._V1_.jpg?rlkey=tiyb4tnqx0o020qd7cdqpyyr1&st=5j6n7skz&raw=1" alt="Locura de amor en las Vegas">
                         <span class="movie-title">Locura de amor en las Vegas</span>
                     </label>
                     
                     <label class="movie-card" onclick="selectMovie('Tu casa o la mía', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/x03hlypxqzq4uktfwfhiu/5351683.jpg?rlkey=mz0zcf4trot5q9j0iqtg3oren&st=tasxucqd&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/x03hlypxqzq4uktfwfhiu/5351683.jpg?rlkey=mz0zcf4trot5q9j0iqtg3oren&st=tasxucqd&raw=1" alt="Tu casa o la mía" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/x03hlypxqzq4uktfwfhiu/5351683.jpg?rlkey=mz0zcf4trot5q9j0iqtg3oren&st=tasxucqd&raw=1" alt="Tu casa o la mía">
                         <span class="movie-title">Tu casa o la mía</span>
                     </label>
                     
                     <label class="movie-card" onclick="selectMovie('Gente que conocemos en vacaciones', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/6oit1yv4fwse7oguumshl/gente-que-conocemos-en-vacaciones-poster.jpg?rlkey=1spy5a65vo8kuofbk6qosmnyd&st=wn8232uo&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/6oit1yv4fwse7oguumshl/gente-que-conocemos-en-vacaciones-poster.jpg?rlkey=1spy5a65vo8kuofbk6qosmnyd&st=wn8232uo&raw=1" alt="Gente que conocemos en vacaciones" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/6oit1yv4fwse7oguumshl/gente-que-conocemos-en-vacaciones-poster.jpg?rlkey=1spy5a65vo8kuofbk6qosmnyd&st=wn8232uo&raw=1" alt="Gente que conocemos en vacaciones">
                         <span class="movie-title">Gente que conocemos en vacaciones</span>
                     </label>
                     
                     <label class="movie-card" onclick="selectMovie('Loco y estupido amor', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/2tsvcdgrx6qit8eek4xb9/19f2032c6d4d306b7bb38af0554811d49ae276b8b6be57533bc1d4248b6b2010.jpg?rlkey=866uisvobts0mgsh6r0c60b7u&st=guaedo3m&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/2tsvcdgrx6qit8eek4xb9/19f2032c6d4d306b7bb38af0554811d49ae276b8b6be57533bc1d4248b6b2010.jpg?rlkey=866uisvobts0mgsh6r0c60b7u&st=guaedo3m&raw=1" alt="Loco y estupido amor" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/2tsvcdgrx6qit8eek4xb9/19f2032c6d4d306b7bb38af0554811d49ae276b8b6be57533bc1d4248b6b2010.jpg?rlkey=866uisvobts0mgsh6r0c60b7u&st=guaedo3m&raw=1" alt="Loco y estupido amor">
                         <span class="movie-title">Loco y estupido amor</span>
                     </label>
                 </div>
@@ -507,31 +475,31 @@
                 <div class="movie-list" id="list-romance" style="display: none;">
                     <label class="movie-card" onclick="selectMovie('Mi año en Oxford', 'Romance', 'https://www.dropbox.com/scl/fi/szwy02ab5tdaimdr5fil7/MV5BMWU0YTc0OWYtOWJjNy00ZDYzLWFlMTItMGZkNzM4YjQ5OWQzXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=1pb3p27sa58ym3wpybe3rsjx4&st=mzzzgwq6&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/szwy02ab5tdaimdr5fil7/MV5BMWU0YTc0OWYtOWJjNy00ZDYzLWFlMTItMGZkNzM4YjQ5OWQzXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=1pb3p27sa58ym3wpybe3rsjx4&st=mzzzgwq6&raw=1" alt="Mi año en Oxford" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/szwy02ab5tdaimdr5fil7/MV5BMWU0YTc0OWYtOWJjNy00ZDYzLWFlMTItMGZkNzM4YjQ5OWQzXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=1pb3p27sa58ym3wpybe3rsjx4&st=mzzzgwq6&raw=1" alt="Mi año en Oxford">
                         <span class="movie-title">Mi año en Oxford</span>
                     </label>
 
                     <label class="movie-card" onclick="selectMovie('Mensaje de voz para Isabel', 'Romance', 'https://www.dropbox.com/scl/fi/3455r39stel1rup5jfbab/f.elconfidencial.com_original_bf1_5b1_a1a_bf15b1a1a862c83ae0a87710ce10df57.jpg?rlkey=lfxwp28apj8edlcg4sm3kgdos&st=mbxa3uua&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/3455r39stel1rup5jfbab/f.elconfidencial.com_original_bf1_5b1_a1a_bf15b1a1a862c83ae0a87710ce10df57.jpg?rlkey=lfxwp28apj8edlcg4sm3kgdos&st=mbxa3uua&raw=1" alt="Mensaje de voz para Isabel" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/3455r39stel1rup5jfbab/f.elconfidencial.com_original_bf1_5b1_a1a_bf15b1a1a862c83ae0a87710ce10df57.jpg?rlkey=lfxwp28apj8edlcg4sm3kgdos&st=mbxa3uua&raw=1" alt="Mensaje de voz para Isabel">
                         <span class="movie-title">Mensaje de voz para Isabel</span>
                     </label>
 
                     <label class="movie-card" onclick="selectMovie('El diario de Noah', 'Romance', 'https://www.dropbox.com/scl/fi/oxqv5dob87go74s07jv76/20070878.jpg?rlkey=p5h0a202dgt4k4rthl9eppfaz&st=pux74pw0&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/oxqv5dob87go74s07jv76/20070878.jpg?rlkey=p5h0a202dgt4k4rthl9eppfaz&st=pux74pw0&raw=1" alt="El diario de Noah" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/oxqv5dob87go74s07jv76/20070878.jpg?rlkey=p5h0a202dgt4k4rthl9eppfaz&st=pux74pw0&raw=1" alt="El diario de Noah">
                         <span class="movie-title">El diario de Noah</span>
                     </label>
 
                     <label class="movie-card" onclick="selectMovie('Todos los días de mi vida', 'Romance', 'https://www.dropbox.com/scl/fi/evypncrqcyry8ijpzuelk/MV5BNzhhMmI5ODAtZWQ5OS00YTQ4LTkwNjctZWFjZGVkMDE4ODBjXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=aar7j16w9rw3z2e2d02tnbtao&st=2irlqgha&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/evypncrqcyry8ijpzuelk/MV5BNzhhMmI5ODAtZWQ5OS00YTQ4LTkwNjctZWFjZGVkMDE4ODBjXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=aar7j16w9rw3z2e2d02tnbtao&st=2irlqgha&raw=1" alt="Todos los días de mi vida" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/evypncrqcyry8ijpzuelk/MV5BNzhhMmI5ODAtZWQ5OS00YTQ4LTkwNjctZWFjZGVkMDE4ODBjXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=aar7j16w9rw3z2e2d02tnbtao&st=2irlqgha&raw=1" alt="Todos los días de mi vida">
                         <span class="movie-title">Todos los días de mi vida</span>
                     </label>
 
                     <label class="movie-card" onclick="selectMovie('El tiempo contigo', 'Romance', 'https://www.dropbox.com/scl/fi/3uaf3pqo50zltd20tp127/MV5BN2Q3Y2VhMGQtODRlZS00MzI0LThhYTAtMDE5ZTQwMjQ5NTQ2XkEyXkFqcGc-._V1_.jpg?rlkey=0hwiryfx6gm6frtg2kpb0xh19&st=lihp5zyq&raw=1', this)">
                         <input type="radio" name="movie_choice">
-                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/3uaf3pqo50zltd20tp127/MV5BN2Q3Y2VhMGQtODRlZS00MzI0LThhYTAtMDE5ZTQwMjQ5NTQ2XkEyXkFqcGc-._V1_.jpg?rlkey=0hwiryfx6gm6frtg2kpb0xh19&st=lihp5zyq&raw=1" alt="El tiempo contigo" crossorigin="anonymous">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/3uaf3pqo50zltd20tp127/MV5BN2Q3Y2VhMGQtODRlZS00MzI0LThhYTAtMDE5ZTQwMjQ5NTQ2XkEyXkFqcGc-._V1_.jpg?rlkey=0hwiryfx6gm6frtg2kpb0xh19&st=lihp5zyq&raw=1" alt="El tiempo contigo">
                         <span class="movie-title">El tiempo contigo</span>
                     </label>
                 </div>
@@ -549,7 +517,7 @@
 
                 <!-- Chosen Summary Box -->
                 <div class="selection-summary">
-                    <img id="summary-img" src="https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1" alt="Poster Película Seleccionada" crossorigin="anonymous">
+                    <img id="summary-img" src="https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1" alt="Poster Película Seleccionada">
                     <div class="summary-text">
                         <div class="badge" id="summary-category">Comedia Romántica</div>
                         <div class="movie-chosen" id="summary-title">Quiero robarme a la novia</div>
@@ -566,18 +534,12 @@
 
         <!-- ACTION BUTTONS -->
         <div class="actions-container">
-            <button class="btn btn-download" onclick="downloadTicket()">
-                <span>📥</span> Descargar mi Ticket (Imagen)
-            </button>
             <a href="#" id="whatsapp-link" target="_blank" class="btn btn-whatsapp" onclick="sendChoiceWhatsApp(event)">
                 <span>💬</span> Avisar a Adryan qué película elegí
             </a>
         </div>
 
     </div>
-
-    <!-- Toast -->
-    <div class="toast" id="toast">¡Ticket descargado con éxito! 🎉</div>
 
     <script>
         let currentCategory = 'Comedia Romántica';
@@ -647,47 +609,11 @@
             });
         }
 
-        function downloadTicket() {
-            confetti({
-                particleCount: 80,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-
-            const ticketElement = document.getElementById('ticket-card');
-
-            html2canvas(ticketElement, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: null
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Ticket_Cine_Sophie_y_Adryan.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-
-                showToast('¡Ticket guardado en tu galería/dispositivo! 📸');
-            }).catch(err => {
-                console.error(err);
-                showToast('Error al descargar el ticket. ¡Toma una captura de pantalla! 😊');
-            });
-        }
-
         function sendChoiceWhatsApp(event) {
             const message = `¡Hola Adryan! 🍿 Ya elegí la película para nuestra cita en Discord:%0A%0A🎬 *Categoría:* ${encodeURIComponent(currentCategory)}%0A🎥 *Película:* ${encodeURIComponent(currentMovie)}%0A⏰ *Hora:* ${encodeURIComponent(currentTime)}%0A🎧 *Plataforma:* Discord%0A%0A¡Ya tengo mi ticke MIKA listo! ✨`;
             
             const waUrl = `https://api.whatsapp.com/send?text=${message}`;
             window.open(waUrl, '_blank');
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3500);
         }
     </script>
 </body>
