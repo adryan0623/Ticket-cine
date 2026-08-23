@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket de Cine Especial - Sophie & Adryan</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <!-- Confetti & html2canvas -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e0538 0%, #3a1c71 50%, #d76d77 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 15px;
+            color: #2c3e50;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* TICKET CARD DESIGN */
+        .ticket-container {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #7c4dff;
+        }
+
+        .ticket-header {
+            background: linear-gradient(135deg, #6200ea 0%, #7c4dff 50%, #b388ff 100%);
+            color: #ffffff;
+            padding: 25px 20px 18px 20px;
+            text-align: center;
+        }
+
+        .ticket-header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.45rem;
+            line-height: 1.3;
+            text-shadow: 1px 2px 4px rgba(0,0,0,0.25);
+            margin-bottom: 6px;
+        }
+
+        .ticket-header p {
+            font-size: 0.85rem;
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Cutout Line */
+        .ticket-divider {
+            position: relative;
+            height: 26px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ticket-divider::before, .ticket-divider::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #2a114f;
+            border-radius: 50%;
+            top: 2px;
+        }
+
+        .ticket-divider::before { left: -11px; }
+        .ticket-divider::after { right: -11px; }
+
+        .dashed-line {
+            width: 85%;
+            border-bottom: 2px dashed #b388ff;
+        }
+
+        .ticket-body {
+            padding: 20px 20px 25px 20px;
+        }
+
+        /* INFO GRID */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            background: #f3e5f5;
+            padding: 12px 10px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.68rem;
+            color: #6a1b9a;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #311b92;
+        }
+
+        /* CATEGORY TABS */
+        .section-label {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.05rem;
+            color: #4a148c;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .category-btn {
+            background: #f5f5f7;
+            border: 2px solid #e1bee7;
+            padding: 12px 8px;
+            border-radius: 14px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: #4a148c;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .category-btn span.emoji {
+            font-size: 1.3rem;
+        }
+
+        .category-btn.active {
+            background: #7c4dff;
+            color: #ffffff;
+            border-color: #6200ea;
+            box-shadow: 0 4px 12px rgba(124, 77, 255, 0.3);
+        }
+
+        /* MOVIE LIST WITH POSTERS */
+        .movie-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .movie-card {
+            border: 2px solid #e1bee7;
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #ffffff;
+        }
+
+        .movie-card:hover {
+            border-color: #7c4dff;
+            background: #fcf8ff;
+            transform: translateY(-2px);
+        }
+
+        .movie-card.selected {
+            border-color: #7c4dff;
+            background: #f3e5f5;
+            box-shadow: 0 4px 12px rgba(124, 77, 255, 0.2);
+        }
+
+        .movie-card input[type="radio"] {
+            accent-color: #7c4dff;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .movie-poster {
+            width: 48px;
+            height: 68px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+            background-color: #eee;
+        }
+
+        .movie-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+
+        /* TIME SELECTOR */
+        .time-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .time-btn {
+            background: #f5f5f7;
+            border: 2px solid #e1bee7;
+            padding: 10px 4px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: #4a148c;
+            transition: all 0.25s ease;
+        }
+
+        .time-btn.active {
+            background: #7c4dff;
+            color: #ffffff;
+            border-color: #6200ea;
+            box-shadow: 0 4px 12px rgba(124, 77, 255, 0.3);
+        }
+
+        /* SELECTED DISPLAY BOX IN TICKET */
+        .selection-summary {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border: 2px dashed #ff9800;
+            border-radius: 16px;
+            padding: 14px 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .selection-summary img {
+            width: 52px;
+            height: 74px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .summary-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .selection-summary .badge {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #e65100;
+            letter-spacing: 0.5px;
+        }
+
+        .selection-summary .movie-chosen {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.15rem;
+            color: #bf360c;
+            margin-top: 2px;
+            line-height: 1.25;
+        }
+
+        /* FOOTER BARCODE */
+        .ticket-footer {
+            border-top: 2px dashed #e1bee7;
+            padding-top: 16px;
+            text-align: center;
+        }
+
+        .barcode {
+            font-family: monospace;
+            font-size: 1.6rem;
+            letter-spacing: 5px;
+            font-weight: bold;
+            color: #333;
+            background: repeating-linear-gradient(
+                90deg,
+                #000,
+                #000 2px,
+                #fff 2px,
+                #fff 4px,
+                #000 4px,
+                #000 7px,
+                #fff 7px,
+                #fff 9px
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .stub-label {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.1rem;
+            color: #7c4dff;
+            letter-spacing: 1.5px;
+            text-transform: lowercase;
+        }
+
+        /* BUTTONS AREA */
+        .actions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #7c4dff 0%, #ff4081 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.35);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 64, 129, 0.5);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        /* NOTIFICATION TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+
+        <!-- TICKET AREA TO DOWNLOAD -->
+        <div class="ticket-container" id="ticket-card">
+            <!-- Header -->
+            <div class="ticket-header">
+                <h1>hola Sophie, ticke para ver una película juntos</h1>
+                <p>✨ Noche de Película Especial ✨</p>
+            </div>
+
+            <!-- Divider with Cutouts -->
+            <div class="ticket-divider">
+                <div class="dashed-line"></div>
+            </div>
+
+            <!-- Ticket Content Body -->
+            <div class="ticket-body">
+                <!-- Info Grid -->
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Plataforma</span>
+                        <span class="info-value">Discord 🎧</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hora (MX)</span>
+                        <span class="info-value" id="info-time">8:00 PM MX</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Admisión</span>
+                        <span class="info-value">Adryan + Sophie</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Category Selector -->
+                <div class="section-label">
+                    <span>🎬</span> 1. Selecciona la Categoría
+                </div>
+
+                <div class="category-selector">
+                    <button class="category-btn active" id="btn-comedia" onclick="switchCategory('comedia')">
+                        <span class="emoji">😂</span>
+                        <span>Comedia Romántica</span>
+                    </button>
+                    <button class="category-btn" id="btn-romance" onclick="switchCategory('romance')">
+                        <span class="emoji">💖</span>
+                        <span>Romance</span>
+                    </button>
+                </div>
+
+                <!-- Step 2: Movie List -->
+                <div class="section-label">
+                    <span>🍿</span> 2. Elige tu Película Favorita
+                </div>
+
+                <!-- Movies List (Comedia Romántica) -->
+                <div class="movie-list" id="list-comedia">
+                    <label class="movie-card selected" onclick="selectMovie('Quiero robarme a la novia', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1', this)">
+                        <input type="radio" name="movie_choice" checked>
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1" alt="Quiero robarme a la novia" crossorigin="anonymous">
+                        <span class="movie-title">Quiero robarme a la novia</span>
+                    </label>
+                    
+                    <label class="movie-card" onclick="selectMovie('Locura de amor en las Vegas', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/8hwo92lbdwff2o6l19t42/MV5BMjdkMDUwOGUtMzRhMS00ZjE1LThlMWQtZTI3MGQ1ZGRmOTQ0XkEyXkFqcGc-._V1_.jpg?rlkey=tiyb4tnqx0o020qd7cdqpyyr1&st=5j6n7skz&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/8hwo92lbdwff2o6l19t42/MV5BMjdkMDUwOGUtMzRhMS00ZjE1LThlMWQtZTI3MGQ1ZGRmOTQ0XkEyXkFqcGc-._V1_.jpg?rlkey=tiyb4tnqx0o020qd7cdqpyyr1&st=5j6n7skz&raw=1" alt="Locura de amor en las Vegas" crossorigin="anonymous">
+                        <span class="movie-title">Locura de amor en las Vegas</span>
+                    </label>
+                    
+                    <label class="movie-card" onclick="selectMovie('Tu casa o la mía', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/x03hlypxqzq4uktfwfhiu/5351683.jpg?rlkey=mz0zcf4trot5q9j0iqtg3oren&st=tasxucqd&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/x03hlypxqzq4uktfwfhiu/5351683.jpg?rlkey=mz0zcf4trot5q9j0iqtg3oren&st=tasxucqd&raw=1" alt="Tu casa o la mía" crossorigin="anonymous">
+                        <span class="movie-title">Tu casa o la mía</span>
+                    </label>
+                    
+                    <label class="movie-card" onclick="selectMovie('Gente que conocemos en vacaciones', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/6oit1yv4fwse7oguumshl/gente-que-conocemos-en-vacaciones-poster.jpg?rlkey=1spy5a65vo8kuofbk6qosmnyd&st=wn8232uo&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/6oit1yv4fwse7oguumshl/gente-que-conocemos-en-vacaciones-poster.jpg?rlkey=1spy5a65vo8kuofbk6qosmnyd&st=wn8232uo&raw=1" alt="Gente que conocemos en vacaciones" crossorigin="anonymous">
+                        <span class="movie-title">Gente que conocemos en vacaciones</span>
+                    </label>
+                    
+                    <label class="movie-card" onclick="selectMovie('Loco y estupido amor', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/2tsvcdgrx6qit8eek4xb9/19f2032c6d4d306b7bb38af0554811d49ae276b8b6be57533bc1d4248b6b2010.jpg?rlkey=866uisvobts0mgsh6r0c60b7u&st=guaedo3m&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/2tsvcdgrx6qit8eek4xb9/19f2032c6d4d306b7bb38af0554811d49ae276b8b6be57533bc1d4248b6b2010.jpg?rlkey=866uisvobts0mgsh6r0c60b7u&st=guaedo3m&raw=1" alt="Loco y estupido amor" crossorigin="anonymous">
+                        <span class="movie-title">Loco y estupido amor</span>
+                    </label>
+                </div>
+
+                <!-- Movies List (Romance) -->
+                <div class="movie-list" id="list-romance" style="display: none;">
+                    <label class="movie-card" onclick="selectMovie('Mi año en Oxford', 'Romance', 'https://www.dropbox.com/scl/fi/szwy02ab5tdaimdr5fil7/MV5BMWU0YTc0OWYtOWJjNy00ZDYzLWFlMTItMGZkNzM4YjQ5OWQzXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=1pb3p27sa58ym3wpybe3rsjx4&st=mzzzgwq6&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/szwy02ab5tdaimdr5fil7/MV5BMWU0YTc0OWYtOWJjNy00ZDYzLWFlMTItMGZkNzM4YjQ5OWQzXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=1pb3p27sa58ym3wpybe3rsjx4&st=mzzzgwq6&raw=1" alt="Mi año en Oxford" crossorigin="anonymous">
+                        <span class="movie-title">Mi año en Oxford</span>
+                    </label>
+
+                    <label class="movie-card" onclick="selectMovie('Mensaje de voz para Isabel', 'Romance', 'https://www.dropbox.com/scl/fi/3455r39stel1rup5jfbab/f.elconfidencial.com_original_bf1_5b1_a1a_bf15b1a1a862c83ae0a87710ce10df57.jpg?rlkey=lfxwp28apj8edlcg4sm3kgdos&st=mbxa3uua&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/3455r39stel1rup5jfbab/f.elconfidencial.com_original_bf1_5b1_a1a_bf15b1a1a862c83ae0a87710ce10df57.jpg?rlkey=lfxwp28apj8edlcg4sm3kgdos&st=mbxa3uua&raw=1" alt="Mensaje de voz para Isabel" crossorigin="anonymous">
+                        <span class="movie-title">Mensaje de voz para Isabel</span>
+                    </label>
+
+                    <label class="movie-card" onclick="selectMovie('El diario de Noah', 'Romance', 'https://www.dropbox.com/scl/fi/oxqv5dob87go74s07jv76/20070878.jpg?rlkey=p5h0a202dgt4k4rthl9eppfaz&st=pux74pw0&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/oxqv5dob87go74s07jv76/20070878.jpg?rlkey=p5h0a202dgt4k4rthl9eppfaz&st=pux74pw0&raw=1" alt="El diario de Noah" crossorigin="anonymous">
+                        <span class="movie-title">El diario de Noah</span>
+                    </label>
+
+                    <label class="movie-card" onclick="selectMovie('Todos los días de mi vida', 'Romance', 'https://www.dropbox.com/scl/fi/evypncrqcyry8ijpzuelk/MV5BNzhhMmI5ODAtZWQ5OS00YTQ4LTkwNjctZWFjZGVkMDE4ODBjXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=aar7j16w9rw3z2e2d02tnbtao&st=2irlqgha&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/evypncrqcyry8ijpzuelk/MV5BNzhhMmI5ODAtZWQ5OS00YTQ4LTkwNjctZWFjZGVkMDE4ODBjXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=aar7j16w9rw3z2e2d02tnbtao&st=2irlqgha&raw=1" alt="Todos los días de mi vida" crossorigin="anonymous">
+                        <span class="movie-title">Todos los días de mi vida</span>
+                    </label>
+
+                    <label class="movie-card" onclick="selectMovie('El tiempo contigo', 'Romance', 'https://www.dropbox.com/scl/fi/3uaf3pqo50zltd20tp127/MV5BN2Q3Y2VhMGQtODRlZS00MzI0LThhYTAtMDE5ZTQwMjQ5NTQ2XkEyXkFqcGc-._V1_.jpg?rlkey=0hwiryfx6gm6frtg2kpb0xh19&st=lihp5zyq&raw=1', this)">
+                        <input type="radio" name="movie_choice">
+                        <img class="movie-poster" src="https://www.dropbox.com/scl/fi/3uaf3pqo50zltd20tp127/MV5BN2Q3Y2VhMGQtODRlZS00MzI0LThhYTAtMDE5ZTQwMjQ5NTQ2XkEyXkFqcGc-._V1_.jpg?rlkey=0hwiryfx6gm6frtg2kpb0xh19&st=lihp5zyq&raw=1" alt="El tiempo contigo" crossorigin="anonymous">
+                        <span class="movie-title">El tiempo contigo</span>
+                    </label>
+                </div>
+
+                <!-- Step 3: Time Selector -->
+                <div class="section-label">
+                    <span>⏰</span> 3. Selecciona la Hora (MX)
+                </div>
+
+                <div class="time-selector">
+                    <button class="time-btn active" onclick="selectTime('8:00 PM MX', this)">8:00 PM MX</button>
+                    <button class="time-btn" onclick="selectTime('9:00 PM MX', this)">9:00 PM MX</button>
+                    <button class="time-btn" onclick="selectTime('10:00 PM MX', this)">10:00 PM MX</button>
+                </div>
+
+                <!-- Chosen Summary Box -->
+                <div class="selection-summary">
+                    <img id="summary-img" src="https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1" alt="Poster Película Seleccionada" crossorigin="anonymous">
+                    <div class="summary-text">
+                        <div class="badge" id="summary-category">Comedia Romántica</div>
+                        <div class="movie-chosen" id="summary-title">Quiero robarme a la novia</div>
+                    </div>
+                </div>
+
+                <!-- Footer Barcode -->
+                <div class="ticket-footer">
+                    <div class="barcode">||||||||||||||||||||||</div>
+                    <div class="stub-label">ticke MIKA</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="actions-container">
+            <button class="btn btn-download" onclick="downloadTicket()">
+                <span>📥</span> Descargar mi Ticket (Imagen)
+            </button>
+            <a href="#" id="whatsapp-link" target="_blank" class="btn btn-whatsapp" onclick="sendChoiceWhatsApp(event)">
+                <span>💬</span> Avisar a Adryan qué película elegí
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">¡Ticket descargado con éxito! 🎉</div>
+
+    <script>
+        let currentCategory = 'Comedia Romántica';
+        let currentMovie = 'Quiero robarme a la novia';
+        let currentTime = '8:00 PM MX';
+
+        function switchCategory(cat) {
+            const btnComedia = document.getElementById('btn-comedia');
+            const btnRomance = document.getElementById('btn-romance');
+            const listComedia = document.getElementById('list-comedia');
+            const listRomance = document.getElementById('list-romance');
+
+            if (cat === 'comedia') {
+                btnComedia.classList.add('active');
+                btnRomance.classList.remove('active');
+                listComedia.style.display = 'flex';
+                listRomance.style.display = 'none';
+
+                const firstCard = listComedia.querySelector('.movie-card');
+                selectMovie('Quiero robarme a la novia', 'Comedia Romántica', 'https://www.dropbox.com/scl/fi/03puje2biqd7o5cyea4fg/QuieroRobarmeALaNoviaDVDCover.webp?rlkey=r1i3dorxueyycn41fgnmvenx5&st=xq0n8tmj&raw=1', firstCard);
+            } else {
+                btnRomance.classList.add('active');
+                btnComedia.classList.remove('active');
+                listRomance.style.display = 'flex';
+                listComedia.style.display = 'none';
+
+                const firstCard = listRomance.querySelector('.movie-card');
+                selectMovie('Mi año en Oxford', 'Romance', 'https://www.dropbox.com/scl/fi/szwy02ab5tdaimdr5fil7/MV5BMWU0YTc0OWYtOWJjNy00ZDYzLWFlMTItMGZkNzM4YjQ5OWQzXkEyXkFqcGc-._V1_FMjpg_UX1000_.jpg?rlkey=1pb3p27sa58ym3wpybe3rsjx4&st=mzzzgwq6&raw=1', firstCard);
+            }
+        }
+
+        function selectMovie(title, category, imgSrc, element) {
+            const parentList = element.parentElement;
+            parentList.querySelectorAll('.movie-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('input[type="radio"]').checked = false;
+            });
+
+            element.classList.add('selected');
+            element.querySelector('input[type="radio"]').checked = true;
+
+            currentMovie = title;
+            currentCategory = category;
+
+            document.getElementById('summary-category').innerText = category;
+            document.getElementById('summary-title').innerText = title;
+            document.getElementById('summary-img').src = imgSrc;
+
+            confetti({
+                particleCount: 25,
+                spread: 50,
+                origin: { y: 0.7 }
+            });
+        }
+
+        function selectTime(time, element) {
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            currentTime = time;
+            document.getElementById('info-time').innerText = time;
+
+            confetti({
+                particleCount: 20,
+                spread: 40,
+                origin: { y: 0.7 }
+            });
+        }
+
+        function downloadTicket() {
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            const ticketElement = document.getElementById('ticket-card');
+
+            html2canvas(ticketElement, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Ticket_Cine_Sophie_y_Adryan.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                showToast('¡Ticket guardado en tu galería/dispositivo! 📸');
+            }).catch(err => {
+                console.error(err);
+                showToast('Error al descargar el ticket. ¡Toma una captura de pantalla! 😊');
+            });
+        }
+
+        function sendChoiceWhatsApp(event) {
+            const message = `¡Hola Adryan! 🍿 Ya elegí la película para nuestra cita en Discord:%0A%0A🎬 *Categoría:* ${encodeURIComponent(currentCategory)}%0A🎥 *Película:* ${encodeURIComponent(currentMovie)}%0A⏰ *Hora:* ${encodeURIComponent(currentTime)}%0A🎧 *Plataforma:* Discord%0A%0A¡Ya tengo mi ticke MIKA listo! ✨`;
+            
+            const waUrl = `https://api.whatsapp.com/send?text=${message}`;
+            window.open(waUrl, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
